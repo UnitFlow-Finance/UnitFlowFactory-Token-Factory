@@ -4,12 +4,16 @@ pragma solidity ^0.8.20;
 import "./ArcToken.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
+import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 
 /**
  * @title ArcTokenFactory
  * @dev Gas-optimized token factory with dynamic fee adjustment
  */
 contract ArcTokenFactory is Ownable, ReentrancyGuard {
+    using SafeERC20 for IERC20;
+    
     uint256 public creationFee;
     uint256 public totalTokensCreated;
     
@@ -43,6 +47,7 @@ contract ArcTokenFactory is Ownable, ReentrancyGuard {
     
     event CreationFeeUpdated(uint256 oldFee, uint256 newFee);
     event FeesWithdrawn(address indexed recipient, uint256 amount);
+    event TokensRecovered(address indexed token, address indexed recipient, uint256 amount);
     
     constructor(uint256 initialFee_) Ownable(msg.sender) {
         creationFee = initialFee_;
@@ -295,6 +300,26 @@ contract ArcTokenFactory is Ownable, ReentrancyGuard {
         bool mintable;
         bool burnable;
         bool pausable;
+    }
+    
+    /**
+     * @dev Recover ERC20 tokens mistakenly sent to the factory
+     * @param token Address of the token to recover
+     * @param recipient Address to receive the recovered tokens
+     * @param amount Amount of tokens to recover
+     */
+    function recoverTokens(
+        address token,
+        address recipient,
+        uint256 amount
+    ) external onlyOwner nonReentrant {
+        require(token != address(0), "Invalid token address");
+        require(recipient != address(0), "Invalid recipient");
+        require(amount > 0, "Amount must be greater than 0");
+        
+        IERC20(token).safeTransfer(recipient, amount);
+        
+        emit TokensRecovered(token, recipient, amount);
     }
     
     receive() external payable {}

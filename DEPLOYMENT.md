@@ -2,25 +2,27 @@
 
 ## Arc Testnet Deployment
 
-### Normal Token Factory
-- **Address**: `0x56A0BBC2fC3d1cAbA740513b0327403D0Ca37b61`
+### Normal Token Factory (v2 - with Token Recovery)
+- **Address**: `0x6441d6384176a01f65034A96E31c4433da82aa91`
 - **Network**: Arc Testnet
 - **Chain ID**: 5042002
 - **Deployer**: `0x3682652cD0995E6972CCF7245a1CAea95C2955b8`
 - **Initial Creation Fee**: 0.01 ARC
-- **Deployment TX**: `0xce9003bbc98e0bbfc281b1e30116c3c3912fea48d54f8b8955a9da237e67b156`
+- **Deployment TX**: `0x6b0af0969321d0349d47db5fb01ae4250fde0704fe303a3d6192a520c9d345f5`
 - **Verified**: ✅ Yes
-- **Explorer**: [View on ArcScan](https://testnet.arcscan.app/address/0x56A0BBC2fC3d1cAbA740513b0327403D0Ca37b61)
+- **Explorer**: [View on ArcScan](https://testnet.arcscan.app/address/0x6441d6384176a01f65034A96E31c4433da82aa91)
+- **New Feature**: Token recovery function
 
-### Tax Token Factory
-- **Address**: `0x82Be30041323148097d1b77F38593b26D3f35C5A`
+### Tax Token Factory (v2 - with Token Recovery)
+- **Address**: `0x70Fa0fc3e6871658E7D118E8513a6502c7Db16b2`
 - **Network**: Arc Testnet
 - **Chain ID**: 5042002
 - **Deployer**: `0x3682652cD0995E6972CCF7245a1CAea95C2955b8`
 - **Initial Creation Fee**: 0.01 ARC
-- **Deployment TX**: `0x49b9ea6faa61ac7e172c13209bf9c6dfe2d1ff86462e0e34c76ef751c747e3e4`
+- **Deployment TX**: `0x3e641d846ffec81a630d7b53194d83fe91b8e2b0994e6be9d0ec3f237c3dfa7a`
 - **Verified**: ✅ Yes
-- **Explorer**: [View on ArcScan](https://testnet.arcscan.app/address/0x82Be30041323148097d1b77F38593b26D3f35C5A)
+- **Explorer**: [View on ArcScan](https://testnet.arcscan.app/address/0x70Fa0fc3e6871658E7D118E8513a6502c7Db16b2)
+- **New Feature**: Token recovery function
 
 ### Test Tokens (Examples)
 
@@ -56,6 +58,7 @@
 - Token registry and tracking
 - Creator history
 - Fee withdrawal
+- Token recovery (rescue mistakenly sent tokens)
 - Gas optimized
 - Reentrancy protected
 
@@ -66,6 +69,7 @@
 - Tax wallet management
 - DEX pair configuration
 - Tax exemption system
+- Token recovery (rescue mistakenly sent tokens)
 
 ### ArcToken (Normal)
 - ERC20 standard

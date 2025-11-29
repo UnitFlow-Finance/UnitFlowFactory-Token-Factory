@@ -5,10 +5,10 @@ Professional token creation factory for Arc Network with dynamic fee adjustment 
 ## Deployed Contracts
 
 ### Arc Testnet
-- **ArcTokenFactory** (Normal Tokens): `0x56A0BBC2fC3d1cAbA740513b0327403D0Ca37b61`
-  - [View on ArcScan](https://testnet.arcscan.app/address/0x56A0BBC2fC3d1cAbA740513b0327403D0Ca37b61)
-- **ArcTaxTokenFactory** (Tax Tokens): `0x82Be30041323148097d1b77F38593b26D3f35C5A`
-  - [View on ArcScan](https://testnet.arcscan.app/address/0x82Be30041323148097d1b77F38593b26D3f35C5A)
+- **ArcTokenFactory** (Normal Tokens): `0x6441d6384176a01f65034A96E31c4433da82aa91`
+  - [View on ArcScan](https://testnet.arcscan.app/address/0x6441d6384176a01f65034A96E31c4433da82aa91)
+- **ArcTaxTokenFactory** (Tax Tokens): `0x70Fa0fc3e6871658E7D118E8513a6502c7Db16b2`
+  - [View on ArcScan](https://testnet.arcscan.app/address/0x70Fa0fc3e6871658E7D118E8513a6502c7Db16b2)
 
 ## Features
 
@@ -44,6 +44,7 @@ Professional token creation factory for Arc Network with dynamic fee adjustment 
 - ✅ Token registry and tracking
 - ✅ Creator token history
 - ✅ Fee withdrawal (owner only)
+- ✅ Token recovery (rescue mistakenly sent tokens)
 - ✅ Automatic refund of excess payment
 - ✅ Reentrancy protection
 
@@ -168,6 +169,21 @@ await factory.updateCreationFee(ethers.parseEther("0.02"));
 ```javascript
 await factory.withdrawFees(recipientAddress);
 ```
+
+### Recover Mistakenly Sent Tokens
+
+If tokens are accidentally sent to the factory, the owner can recover them:
+
+```javascript
+// Recover ERC20 tokens sent to factory by mistake
+await factory.recoverTokens(
+  tokenAddress,      // Address of the token to recover
+  recipientAddress,  // Address to receive the tokens
+  amount            // Amount to recover
+);
+```
+
+This feature protects users from losing tokens sent to the factory contract by mistake.
 
 ### Query Tokens
 
