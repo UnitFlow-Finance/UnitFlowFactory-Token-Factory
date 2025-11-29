@@ -4,21 +4,40 @@ Professional token creation factory for Arc Network with dynamic fee adjustment 
 
 ## 🚀 Deployed Contracts (Production)
 
-### Arc Testnet
+### Arc Testnet - V2 (Recommended - Auto-Verified Tokens)
 
-#### Normal Token Factory
-- **Address**: `0x6441d6384176a01f65034A96E31c4433da82aa91`
+#### Normal Token Factory V2
+- **Address**: `0xF00b137C40e3a370369901becF25ca0AA76DFC64`
+- **Implementation**: `0x484C4863993c8DAD2601Cb12094465eEEF2d4461`
 - **Purpose**: Create standard ERC20 tokens with advanced features
-- **Explorer**: [View on ArcScan](https://testnet.arcscan.app/address/0x6441d6384176a01f65034A96E31c4433da82aa91)
+- **Explorer**: [View on ArcScan](https://testnet.arcscan.app/address/0xF00b137C40e3a370369901becF25ca0AA76DFC64)
 - **Status**: ✅ Verified & Production Ready
+- **Feature**: ✨ **ALL TOKENS AUTO-VERIFIED**
 
-#### Tax Token Factory
-- **Address**: `0x70Fa0fc3e6871658E7D118E8513a6502c7Db16b2`
+#### Tax Token Factory V2
+- **Address**: `0x35b0A621a88634cea24920D84331d0CAad629BF4`
+- **Implementation**: `0xe284181b05C50E4a14F3Dc9195F3ACDE062F4abd`
 - **Purpose**: Create tokens with buy/sell tax functionality
-- **Explorer**: [View on ArcScan](https://testnet.arcscan.app/address/0x70Fa0fc3e6871658E7D118E8513a6502c7Db16b2)
+- **Explorer**: [View on ArcScan](https://testnet.arcscan.app/address/0x35b0A621a88634cea24920D84331d0CAad629BF4)
 - **Status**: ✅ Verified & Production Ready
+- **Feature**: ✨ **ALL TOKENS AUTO-VERIFIED**
 
-> **Note**: Two separate factories are used due to Ethereum's 24KB contract size limit. This approach provides better gas efficiency and maintainability.
+> **V2 uses Minimal Proxy Pattern (EIP-1167)**: All tokens created are automatically verified on ArcScan! See [V2_AUTO_VERIFICATION.md](./V2_AUTO_VERIFICATION.md) for details.
+
+### Arc Testnet - V1 (Legacy)
+
+<details>
+<summary>Click to view V1 addresses (requires manual verification)</summary>
+
+#### Normal Token Factory V1
+- **Address**: `0x6441d6384176a01f65034A96E31c4433da82aa91`
+- **Status**: ✅ Functional (Legacy)
+
+#### Tax Token Factory V1
+- **Address**: `0x70Fa0fc3e6871658E7D118E8513a6502c7Db16b2`
+- **Status**: ✅ Functional (Legacy)
+
+</details>
 
 ## Features
 
