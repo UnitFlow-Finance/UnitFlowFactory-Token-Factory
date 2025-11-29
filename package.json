@@ -11,6 +11,8 @@
     "test-tax": "hardhat run scripts/test-tax-token.js --network arcTestnet",
     "test-recovery": "hardhat run scripts/test-token-recovery.js --network arcTestnet",
     "test-tax-recovery": "hardhat run scripts/test-tax-recovery.js --network arcTestnet",
+    "create-verify": "hardhat run scripts/create-and-verify-token.js --network arcTestnet",
+    "create-verify-tax": "hardhat run scripts/create-and-verify-tax-token.js --network arcTestnet",
     "list-tokens": "hardhat run scripts/list-tokens.js --network arcTestnet",
     "batch-create": "hardhat run scripts/batch-create.js --network arcTestnet",
     "update-fee": "hardhat run scripts/update-fee.js --network arcTestnet",

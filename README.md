@@ -128,11 +128,26 @@ npm run deploy           # Deploy normal factory
 npm run deploy-tax       # Deploy tax factory
 npm run test-factory     # Test normal token creation
 npm run test-tax         # Test tax token creation
+npm run create-verify    # Create and auto-verify normal token
+npm run create-verify-tax # Create and auto-verify tax token
 npm run test-recovery    # Test token recovery (normal)
 npm run test-tax-recovery # Test token recovery (tax)
 npm run list-tokens      # List all created tokens
 npm run update-fee       # Update creation fee
 npm run withdraw         # Withdraw accumulated fees
+```
+
+### Token Verification
+
+Tokens created by the factories can be verified on ArcScan. See [VERIFICATION_GUIDE.md](./VERIFICATION_GUIDE.md) for detailed instructions.
+
+**Quick verification:**
+```bash
+# Verify a normal token
+TOKEN_ADDRESS=0xYourTokenAddress TOKEN_TYPE=normal npx hardhat run scripts/verify-token.js --network arcTestnet
+
+# Verify a tax token
+TOKEN_ADDRESS=0xYourTokenAddress TOKEN_TYPE=tax npx hardhat run scripts/verify-token.js --network arcTestnet
 ```
 
 ## Creating Tokens
