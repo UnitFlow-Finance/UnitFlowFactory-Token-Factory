@@ -80,6 +80,28 @@ The project is configured for Arc Testnet deployment:
 npm install
 ```
 
+### Using ABIs in Your Project
+
+All contract ABIs are available in the `abi/` directory:
+
+```javascript
+// JavaScript/Node.js
+const { ArcTokenFactory, addresses } = require('./abi');
+
+// ES6/TypeScript
+import { ArcTokenFactory, addresses } from './abi';
+
+// Use with ethers.js
+import { ethers } from 'ethers';
+const factory = new ethers.Contract(
+  addresses.arcTestnet.normalFactory,
+  ArcTokenFactory,
+  provider
+);
+```
+
+See [abi/README.md](./abi/README.md) for detailed usage examples.
+
 ### Compile Contracts
 
 ```bash
@@ -316,6 +338,30 @@ The contracts are optimized for gas efficiency:
 - Automatic refund of excess payments
 - Blacklist functionality for compliance
 - Maximum supply enforcement
+
+## 📁 Contract ABIs
+
+All contract ABIs are available in the `abi/` directory for easy integration:
+
+- **ArcTokenFactory.json** - Normal token factory ABI
+- **ArcTaxTokenFactory.json** - Tax token factory ABI
+- **ArcToken.json** - Standard token ABI
+- **ArcTaxToken.json** - Tax token ABI
+
+### Quick Import
+
+```javascript
+// CommonJS
+const { ArcTokenFactory, addresses } = require('./abi');
+
+// ES6
+import { ArcTokenFactory, addresses } from './abi';
+
+// TypeScript
+import { ArcTokenFactory, addresses, Networks } from './abi';
+```
+
+See [abi/README.md](./abi/README.md) for detailed usage examples with ethers.js, web3.js, and Python.
 
 ## License
 
