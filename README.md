@@ -2,13 +2,23 @@
 
 Professional token creation factory for Arc Network with dynamic fee adjustment and gas optimization.
 
-## Deployed Contracts
+## 🚀 Deployed Contracts (Production)
 
 ### Arc Testnet
-- **ArcTokenFactory** (Normal Tokens): `0x6441d6384176a01f65034A96E31c4433da82aa91`
-  - [View on ArcScan](https://testnet.arcscan.app/address/0x6441d6384176a01f65034A96E31c4433da82aa91)
-- **ArcTaxTokenFactory** (Tax Tokens): `0x70Fa0fc3e6871658E7D118E8513a6502c7Db16b2`
-  - [View on ArcScan](https://testnet.arcscan.app/address/0x70Fa0fc3e6871658E7D118E8513a6502c7Db16b2)
+
+#### Normal Token Factory
+- **Address**: `0x6441d6384176a01f65034A96E31c4433da82aa91`
+- **Purpose**: Create standard ERC20 tokens with advanced features
+- **Explorer**: [View on ArcScan](https://testnet.arcscan.app/address/0x6441d6384176a01f65034A96E31c4433da82aa91)
+- **Status**: ✅ Verified & Production Ready
+
+#### Tax Token Factory
+- **Address**: `0x70Fa0fc3e6871658E7D118E8513a6502c7Db16b2`
+- **Purpose**: Create tokens with buy/sell tax functionality
+- **Explorer**: [View on ArcScan](https://testnet.arcscan.app/address/0x70Fa0fc3e6871658E7D118E8513a6502c7Db16b2)
+- **Status**: ✅ Verified & Production Ready
+
+> **Note**: Two separate factories are used due to Ethereum's 24KB contract size limit. This approach provides better gas efficiency and maintainability.
 
 ## Features
 
@@ -62,30 +72,45 @@ The project is configured for Arc Testnet deployment:
 - RPC: https://rpc.testnet.arc.network
 - Explorer: https://testnet.arcscan.app
 
-## Usage
+## 📦 Quick Start
+
+### Installation
+
+```bash
+npm install
+```
 
 ### Compile Contracts
 
 ```bash
-npx hardhat compile
+npm run compile
 ```
 
-### Deploy Factory
+### Using the Factories
 
+#### Create Normal Token
 ```bash
-npx hardhat run scripts/deploy.js --network arcTestnet
+npm run test-factory
 ```
 
-### Test Factory
-
+#### Create Tax Token
 ```bash
-npx hardhat run scripts/test-factory.js --network arcTestnet
+npm run test-tax
 ```
 
-### Verify Contract
+### Available Scripts
 
 ```bash
-npx hardhat verify --network arcTestnet <FACTORY_ADDRESS> "<INITIAL_FEE>"
+npm run compile          # Compile contracts
+npm run deploy           # Deploy normal factory
+npm run deploy-tax       # Deploy tax factory
+npm run test-factory     # Test normal token creation
+npm run test-tax         # Test tax token creation
+npm run test-recovery    # Test token recovery (normal)
+npm run test-tax-recovery # Test token recovery (tax)
+npm run list-tokens      # List all created tokens
+npm run update-fee       # Update creation fee
+npm run withdraw         # Withdraw accumulated fees
 ```
 
 ## Creating Tokens

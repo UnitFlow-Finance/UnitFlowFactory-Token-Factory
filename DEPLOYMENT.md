@@ -1,28 +1,45 @@
 # Deployment Information
 
-## Arc Testnet Deployment
+## 🚀 Production Deployment - Arc Testnet
 
-### Normal Token Factory (v2 - with Token Recovery)
+### Normal Token Factory (Final Version)
+- **Contract**: ArcTokenFactory
 - **Address**: `0x6441d6384176a01f65034A96E31c4433da82aa91`
 - **Network**: Arc Testnet
 - **Chain ID**: 5042002
 - **Deployer**: `0x3682652cD0995E6972CCF7245a1CAea95C2955b8`
-- **Initial Creation Fee**: 0.01 ARC
+- **Creation Fee**: 0.01 ARC
 - **Deployment TX**: `0x6b0af0969321d0349d47db5fb01ae4250fde0704fe303a3d6192a520c9d345f5`
 - **Verified**: ✅ Yes
 - **Explorer**: [View on ArcScan](https://testnet.arcscan.app/address/0x6441d6384176a01f65034A96E31c4433da82aa91)
-- **New Feature**: Token recovery function
+- **Status**: 🟢 Production Ready
 
-### Tax Token Factory (v2 - with Token Recovery)
+**Features:**
+- Create standard ERC20 tokens
+- Customizable parameters (decimals, supply, features)
+- Token recovery function
+- Dynamic fee adjustment
+- Fee withdrawal
+
+### Tax Token Factory (Final Version)
+- **Contract**: ArcTaxTokenFactory
 - **Address**: `0x70Fa0fc3e6871658E7D118E8513a6502c7Db16b2`
 - **Network**: Arc Testnet
 - **Chain ID**: 5042002
 - **Deployer**: `0x3682652cD0995E6972CCF7245a1CAea95C2955b8`
-- **Initial Creation Fee**: 0.01 ARC
+- **Creation Fee**: 0.01 ARC
 - **Deployment TX**: `0x3e641d846ffec81a630d7b53194d83fe91b8e2b0994e6be9d0ec3f237c3dfa7a`
 - **Verified**: ✅ Yes
 - **Explorer**: [View on ArcScan](https://testnet.arcscan.app/address/0x70Fa0fc3e6871658E7D118E8513a6502c7Db16b2)
-- **New Feature**: Token recovery function
+- **Status**: 🟢 Production Ready
+
+**Features:**
+- Create tokens with buy/sell tax (0-25%)
+- All normal token features
+- DEX pair management
+- Tax exemption system
+- Token recovery function
+- Dynamic tax updates
 
 ### Test Tokens (Examples)
 
@@ -49,6 +66,29 @@
 - **Features**: Mintable, Burnable, Pausable, Tax System
 - **Creation TX**: `0x3d9adc3ea64baefe35cb803cc62278a07c054e3f8b3472dba9241c594dc5f5e8`
 - **Explorer**: [View on ArcScan](https://testnet.arcscan.app/address/0xf43ef7A19d1CdD678A9362CB5C2a74FCAAa5E118)
+
+## 📋 Why Two Separate Factories?
+
+The project uses two separate factories instead of one unified factory due to **Ethereum's 24KB contract size limit** (EIP-170).
+
+**Technical Explanation:**
+- Maximum contract size: 24KB
+- ArcToken bytecode: ~12KB
+- ArcTaxToken bytecode: ~14KB
+- Factory logic: ~3KB
+- **Combined total**: ~29KB (exceeds limit)
+
+**Benefits of Separate Factories:**
+- ✅ No size limitations
+- ✅ Better gas efficiency
+- ✅ Focused functionality
+- ✅ Independent upgrades
+- ✅ Easier maintenance
+- ✅ Clear separation of concerns
+
+Users simply choose the appropriate factory based on their needs:
+- Need standard token → Use Normal Factory
+- Need tax token → Use Tax Factory
 
 ## Contract Features
 
