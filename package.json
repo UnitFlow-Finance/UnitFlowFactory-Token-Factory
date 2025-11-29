@@ -1,14 +1,20 @@
 {
   "name": "arcfactory-token-factory",
   "version": "1.0.0",
-  "description": "",
+  "description": "Professional token creation factory for Arc Network with dynamic fee adjustment",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "compile": "hardhat compile",
+    "deploy": "hardhat run scripts/deploy.js --network arcTestnet",
+    "test-factory": "hardhat run scripts/test-factory.js --network arcTestnet",
+    "list-tokens": "hardhat run scripts/list-tokens.js --network arcTestnet",
+    "batch-create": "hardhat run scripts/batch-create.js --network arcTestnet",
+    "update-fee": "hardhat run scripts/update-fee.js --network arcTestnet",
+    "withdraw": "hardhat run scripts/withdraw-fees.js --network arcTestnet"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": ["token", "factory", "erc20", "arc", "blockchain", "smart-contracts"],
+  "author": "ArcFlow Finance",
+  "license": "MIT",
   "devDependencies": {
     "@nomicfoundation/hardhat-toolbox": "^4.0.0",
     "@nomicfoundation/hardhat-verify": "^2.1.3",
