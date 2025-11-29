@@ -2,17 +2,29 @@
 
 ## Arc Testnet Deployment
 
-### Factory Contract
-- **Address**: `0x6702a3fFc7D6c7b6e89c946170765ae0d935179C`
+### Normal Token Factory
+- **Address**: `0x56A0BBC2fC3d1cAbA740513b0327403D0Ca37b61`
 - **Network**: Arc Testnet
 - **Chain ID**: 5042002
 - **Deployer**: `0x3682652cD0995E6972CCF7245a1CAea95C2955b8`
 - **Initial Creation Fee**: 0.01 ARC
-- **Deployment TX**: `0x4f7ece60e1ae4f37e9845305a86a224360c7aa6e4514f66bd0faf87005404d7b`
+- **Deployment TX**: `0xce9003bbc98e0bbfc281b1e30116c3c3912fea48d54f8b8955a9da237e67b156`
 - **Verified**: ✅ Yes
-- **Explorer**: [View on ArcScan](https://testnet.arcscan.app/address/0x6702a3fFc7D6c7b6e89c946170765ae0d935179C)
+- **Explorer**: [View on ArcScan](https://testnet.arcscan.app/address/0x56A0BBC2fC3d1cAbA740513b0327403D0Ca37b61)
 
-### Test Token (Example)
+### Tax Token Factory
+- **Address**: `0x82Be30041323148097d1b77F38593b26D3f35C5A`
+- **Network**: Arc Testnet
+- **Chain ID**: 5042002
+- **Deployer**: `0x3682652cD0995E6972CCF7245a1CAea95C2955b8`
+- **Initial Creation Fee**: 0.01 ARC
+- **Deployment TX**: `0x49b9ea6faa61ac7e172c13209bf9c6dfe2d1ff86462e0e34c76ef751c747e3e4`
+- **Verified**: ✅ Yes
+- **Explorer**: [View on ArcScan](https://testnet.arcscan.app/address/0x82Be30041323148097d1b77F38593b26D3f35C5A)
+
+### Test Tokens (Examples)
+
+#### Normal Token
 - **Address**: `0x0e1c24154A2DA438142E108ea92f519f3B18306b`
 - **Name**: Test Token
 - **Symbol**: TEST
@@ -23,19 +35,39 @@
 - **Creation TX**: `0x46a4fd3c1de8b87868a5b1668c63e02f95084f1cffa9a53058ccc93a85ad0769`
 - **Explorer**: [View on ArcScan](https://testnet.arcscan.app/address/0x0e1c24154A2DA438142E108ea92f519f3B18306b)
 
+#### Tax Token
+- **Address**: `0xf43ef7A19d1CdD678A9362CB5C2a74FCAAa5E118`
+- **Name**: Tax Token
+- **Symbol**: TAX
+- **Decimals**: 18
+- **Initial Supply**: 1,000,000 TAX
+- **Max Supply**: 10,000,000 TAX
+- **Buy Tax**: 5% (500 basis points)
+- **Sell Tax**: 10% (1000 basis points)
+- **Features**: Mintable, Burnable, Pausable, Tax System
+- **Creation TX**: `0x3d9adc3ea64baefe35cb803cc62278a07c054e3f8b3472dba9241c594dc5f5e8`
+- **Explorer**: [View on ArcScan](https://testnet.arcscan.app/address/0xf43ef7A19d1CdD678A9362CB5C2a74FCAAa5E118)
+
 ## Contract Features
 
-### ArcTokenFactory
+### ArcTokenFactory (Normal Tokens)
 - Dynamic fee adjustment (owner only)
 - Token creation with customizable parameters
-- Batch token creation
 - Token registry and tracking
 - Creator history
 - Fee withdrawal
 - Gas optimized
 - Reentrancy protected
 
-### ArcToken
+### ArcTaxTokenFactory (Tax Tokens)
+- All normal factory features
+- Tax token creation with buy/sell tax
+- Configurable tax rates (0-25%)
+- Tax wallet management
+- DEX pair configuration
+- Tax exemption system
+
+### ArcToken (Normal)
 - ERC20 standard
 - ERC20Burnable
 - ERC20Pausable (optional)
@@ -45,6 +77,15 @@
 - Max supply cap (optional)
 - Blacklist functionality
 - Customizable decimals
+
+### ArcTaxToken (Tax)
+- All normal token features
+- Buy tax (0-25%)
+- Sell tax (0-25%)
+- DEX pair detection
+- Tax exemption system
+- Dynamic tax updates
+- Tax wallet configuration
 
 ## Gas Costs
 
@@ -73,9 +114,13 @@ npx hardhat run scripts/withdraw-fees.js --network arcTestnet [RECIPIENT_ADDRESS
 npx hardhat run scripts/list-tokens.js --network arcTestnet
 ```
 
-### Create Test Token
+### Create Test Tokens
 ```bash
+# Normal token
 npx hardhat run scripts/test-factory.js --network arcTestnet
+
+# Tax token
+npx hardhat run scripts/test-tax-token.js --network arcTestnet
 ```
 
 ## Verification

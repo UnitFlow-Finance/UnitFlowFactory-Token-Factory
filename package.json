@@ -6,7 +6,9 @@
   "scripts": {
     "compile": "hardhat compile",
     "deploy": "hardhat run scripts/deploy.js --network arcTestnet",
+    "deploy-tax": "hardhat run scripts/deploy-tax-factory.js --network arcTestnet",
     "test-factory": "hardhat run scripts/test-factory.js --network arcTestnet",
+    "test-tax": "hardhat run scripts/test-tax-token.js --network arcTestnet",
     "list-tokens": "hardhat run scripts/list-tokens.js --network arcTestnet",
     "batch-create": "hardhat run scripts/batch-create.js --network arcTestnet",
     "update-fee": "hardhat run scripts/update-fee.js --network arcTestnet",

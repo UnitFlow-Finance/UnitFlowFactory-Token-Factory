@@ -5,12 +5,18 @@ Professional token creation factory for Arc Network with dynamic fee adjustment 
 ## Deployed Contracts
 
 ### Arc Testnet
-- **ArcTokenFactory**: `0x6702a3fFc7D6c7b6e89c946170765ae0d935179C`
-- **Explorer**: [View on ArcScan](https://testnet.arcscan.app/address/0x6702a3fFc7D6c7b6e89c946170765ae0d935179C)
+- **ArcTokenFactory** (Normal Tokens): `0x56A0BBC2fC3d1cAbA740513b0327403D0Ca37b61`
+  - [View on ArcScan](https://testnet.arcscan.app/address/0x56A0BBC2fC3d1cAbA740513b0327403D0Ca37b61)
+- **ArcTaxTokenFactory** (Tax Tokens): `0x82Be30041323148097d1b77F38593b26D3f35C5A`
+  - [View on ArcScan](https://testnet.arcscan.app/address/0x82Be30041323148097d1b77F38593b26D3f35C5A)
 
 ## Features
 
-### Token Features
+### Token Types
+- ✅ **Normal Tokens** - Standard ERC20 with advanced features
+- ✅ **Tax Tokens** - ERC20 with buy/sell tax functionality
+
+### Normal Token Features
 - ✅ ERC20 standard compliance
 - ✅ Customizable decimals (up to 18)
 - ✅ Initial supply minting
@@ -22,13 +28,21 @@ Professional token creation factory for Arc Network with dynamic fee adjustment 
 - ✅ ERC20Permit (gasless approvals)
 - ✅ Ownership transfer
 
+### Tax Token Features
+- ✅ All normal token features
+- ✅ Configurable buy tax (0-25%)
+- ✅ Configurable sell tax (0-25%)
+- ✅ DEX pair management
+- ✅ Tax exemption system
+- ✅ Tax wallet configuration
+- ✅ Dynamic tax updates
+
 ### Factory Features
+- ✅ Two specialized factories (Normal & Tax)
 - ✅ Dynamic creation fee adjustment (owner only)
 - ✅ Gas-optimized deployment
-- ✅ Batch token creation
 - ✅ Token registry and tracking
 - ✅ Creator token history
-- ✅ Paginated token listing
 - ✅ Fee withdrawal (owner only)
 - ✅ Automatic refund of excess payment
 - ✅ Reentrancy protection
@@ -75,10 +89,10 @@ npx hardhat verify --network arcTestnet <FACTORY_ADDRESS> "<INITIAL_FEE>"
 
 ## Creating Tokens
 
-### Single Token Creation
+### Normal Token Creation
 
 ```javascript
-const factory = await ethers.getContractAt("ArcTokenFactory", factoryAddress);
+const factory = await ethers.getContractAt("ArcTokenFactory", normalFactoryAddress);
 const creationFee = await factory.creationFee();
 
 const tx = await factory.createToken(
@@ -90,6 +104,30 @@ const tx = await factory.createToken(
   true,                 // mintable
   true,                 // burnable
   true,                 // pausable
+  { value: creationFee }
+);
+
+const receipt = await tx.wait();
+```
+
+### Tax Token Creation
+
+```javascript
+const taxFactory = await ethers.getContractAt("ArcTaxTokenFactory", taxFactoryAddress);
+const creationFee = await taxFactory.creationFee();
+
+const tx = await taxFactory.createTaxToken(
+  "Tax Token",          // name
+  "TAX",                // symbol
+  18,                   // decimals
+  ethers.parseEther("1000000"),  // initial supply
+  ethers.parseEther("10000000"), // max supply (0 for unlimited)
+  true,                 // mintable
+  true,                 // burnable
+  true,                 // pausable
+  500,                  // buy tax (5% = 500 basis points)
+  1000,                 // sell tax (10% = 1000 basis points)
+  taxWalletAddress,     // tax wallet
   { value: creationFee }
 );
 
@@ -178,14 +216,56 @@ await token.unblacklist(addressToUnblacklist);
 await token.updateMaxSupply(newMaxSupply); // Can only decrease
 ```
 
+## Tax Token Management
+
+After creating a tax token, you can manage its tax configuration:
+
+### Update Tax Rates
+
+```javascript
+const taxToken = await ethers.getContractAt("ArcTaxToken", tokenAddress);
+
+// Update buy and sell tax (max 25%)
+await taxToken.updateTax(
+  300,  // 3% buy tax (300 basis points)
+  500   // 5% sell tax (500 basis points)
+);
+```
+
+### Set DEX Pairs
+
+```javascript
+// Add a DEX pair for tax detection
+await taxToken.setDexPair(pairAddress, true);
+
+// Remove a DEX pair
+await taxToken.setDexPair(pairAddress, false);
+```
+
+### Manage Tax Exemptions
+
+```javascript
+// Exempt an address from taxes
+await taxToken.setTaxExempt(addressToExempt, true);
+
+// Remove tax exemption
+await taxToken.setTaxExempt(addressToExempt, false);
+```
+
+### Update Tax Wallet
+
+```javascript
+await taxToken.updateTaxWallet(newTaxWalletAddress);
+```
+
 ## Gas Optimization
 
 The contracts are optimized for gas efficiency:
-- Compiler optimization enabled (200 runs)
+- Compiler optimization enabled (1000 runs)
 - Via IR compilation for better optimization
 - Efficient storage packing
 - Minimal external calls
-- Batch operations support
+- Separate factories for reduced deployment size
 
 ## Security Features
 
