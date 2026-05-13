@@ -1,3 +1,4 @@
+require("dotenv").config();
 require("@nomicfoundation/hardhat-toolbox");
 require("@nomicfoundation/hardhat-verify");
 
@@ -17,7 +18,7 @@ module.exports = {
     arcTestnet: {
       url: "https://rpc.testnet.arc.network",
       chainId: 5042002,
-      accounts: ["REDACTED_PRIVATE_KEY"],
+      accounts: process.env.PRIVATE_KEY ? [process.env.PRIVATE_KEY] : [],
       gasPrice: "auto",
     },
   },
