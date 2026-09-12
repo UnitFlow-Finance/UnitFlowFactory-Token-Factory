@@ -16,11 +16,11 @@ async function main() {
   console.log("Owner address:", owner.address);
   console.log("New fee:", ethers.formatEther(newFee), "ARC\n");
 
-  // Update Normal Token Factory V2
-  console.log("📝 Updating Normal Token Factory V2...");
+  // Update Normal Unit Factory V2
+  console.log("📝 Updating Normal Unit Factory V2...");
   console.log("Factory address:", normalFactoryV2);
   
-  const NormalFactory = await ethers.getContractFactory("ArcTokenFactoryV2");
+  const NormalFactory = await ethers.getContractFactory("UnitFactoryV2");
   const normalFactory = NormalFactory.attach(normalFactoryV2);
 
   const currentNormalFee = await normalFactory.creationFee();
@@ -33,11 +33,11 @@ async function main() {
   await tx1.wait();
   console.log("✅ Normal Factory fee updated!\n");
 
-  // Update Tax Token Factory V2
-  console.log("📝 Updating Tax Token Factory V2...");
+  // Update Tax Unit Factory V2
+  console.log("📝 Updating Tax Unit Factory V2...");
   console.log("Factory address:", taxFactoryV2);
   
-  const TaxFactory = await ethers.getContractFactory("ArcTaxTokenFactoryV2");
+  const TaxFactory = await ethers.getContractFactory("TaxUnitFactoryV2");
   const taxFactory = TaxFactory.attach(taxFactoryV2);
 
   const currentTaxFee = await taxFactory.creationFee();

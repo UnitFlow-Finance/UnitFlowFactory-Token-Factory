@@ -9,11 +9,11 @@ import "@openzeppelin/contracts-upgradeable/token/ERC20/extensions/ERC20PermitUp
 import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
 
 /**
- * @title ArcTaxTokenImplementation
- * @dev Implementation contract for cloneable tax tokens
+ * @title UnitImplementation
+ * @dev Implementation contract for cloneable ERC20 tokens
  * All clones of this verified contract are automatically verified
  */
-contract ArcTaxTokenImplementation is
+contract UnitImplementation is 
     Initializable,
     ERC20Upgradeable,
     ERC20BurnableUpgradeable,
@@ -26,24 +26,11 @@ contract ArcTaxTokenImplementation is
     bool public mintable;
     bool public pausable;
     
-    uint256 public buyTaxPercent;
-    uint256 public sellTaxPercent;
-    address public taxWallet;
-    
-    uint256 public constant MAX_TAX = 2500;
-    
-    mapping(address => bool) public isDexPair;
-    mapping(address => bool) public isTaxExempt;
     mapping(address => bool) public blacklisted;
     
     event Blacklisted(address indexed account);
     event Unblacklisted(address indexed account);
     event MaxSupplyUpdated(uint256 newMaxSupply);
-    event TaxUpdated(uint256 buyTax, uint256 sellTax);
-    event TaxWalletUpdated(address indexed newTaxWallet);
-    event DexPairUpdated(address indexed pair, bool status);
-    event TaxExemptionUpdated(address indexed account, bool status);
-    event TaxCollected(address indexed from, address indexed to, uint256 amount);
     
     /// @custom:oz-upgrades-unsafe-allow constructor
     constructor() {
@@ -58,15 +45,8 @@ contract ArcTaxTokenImplementation is
         uint256 maxSupply_,
         bool mintable_,
         bool pausable_,
-        uint256 buyTax_,
-        uint256 sellTax_,
-        address taxWallet_,
         address owner_
     ) public initializer {
-        require(buyTax_ <= MAX_TAX, "Buy tax too high");
-        require(sellTax_ <= MAX_TAX, "Sell tax too high");
-        require(taxWallet_ != address(0), "Invalid tax wallet");
-        
         __ERC20_init(name_, symbol_);
         __ERC20Burnable_init();
         __ERC20Pausable_init();
@@ -77,12 +57,6 @@ contract ArcTaxTokenImplementation is
         maxSupply = maxSupply_;
         mintable = mintable_;
         pausable = pausable_;
-        buyTaxPercent = buyTax_;
-        sellTaxPercent = sellTax_;
-        taxWallet = taxWallet_;
-        
-        isTaxExempt[owner_] = true;
-        isTaxExempt[taxWallet_] = true;
         
         if (initialSupply_ > 0) {
             _mint(owner_, initialSupply_);
@@ -106,31 +80,6 @@ contract ArcTaxTokenImplementation is
     
     function unpause() external onlyOwner {
         _unpause();
-    }
-    
-    function updateTax(uint256 newBuyTax, uint256 newSellTax) external onlyOwner {
-        require(newBuyTax <= MAX_TAX, "Buy tax too high");
-        require(newSellTax <= MAX_TAX, "Sell tax too high");
-        buyTaxPercent = newBuyTax;
-        sellTaxPercent = newSellTax;
-        emit TaxUpdated(newBuyTax, newSellTax);
-    }
-    
-    function updateTaxWallet(address newTaxWallet) external onlyOwner {
-        require(newTaxWallet != address(0), "Invalid tax wallet");
-        taxWallet = newTaxWallet;
-        isTaxExempt[newTaxWallet] = true;
-        emit TaxWalletUpdated(newTaxWallet);
-    }
-    
-    function setDexPair(address pair, bool status) external onlyOwner {
-        isDexPair[pair] = status;
-        emit DexPairUpdated(pair, status);
-    }
-    
-    function setTaxExempt(address account, bool status) external onlyOwner {
-        isTaxExempt[account] = status;
-        emit TaxExemptionUpdated(account, status);
     }
     
     function blacklist(address account) external onlyOwner {
@@ -157,27 +106,6 @@ contract ArcTaxTokenImplementation is
     {
         require(!blacklisted[from], "Sender is blacklisted");
         require(!blacklisted[to], "Recipient is blacklisted");
-        
-        if (from == address(0) || to == address(0) || isTaxExempt[from] || isTaxExempt[to]) {
-            super._update(from, to, value);
-            return;
-        }
-        
-        uint256 taxAmount = 0;
-        
-        if (isDexPair[from] && buyTaxPercent > 0) {
-            taxAmount = (value * buyTaxPercent) / 10000;
-        } else if (isDexPair[to] && sellTaxPercent > 0) {
-            taxAmount = (value * sellTaxPercent) / 10000;
-        }
-        
-        if (taxAmount > 0) {
-            uint256 amountAfterTax = value - taxAmount;
-            super._update(from, taxWallet, taxAmount);
-            emit TaxCollected(from, taxWallet, taxAmount);
-            super._update(from, to, amountAfterTax);
-        } else {
-            super._update(from, to, value);
-        }
+        super._update(from, to, value);
     }
 }

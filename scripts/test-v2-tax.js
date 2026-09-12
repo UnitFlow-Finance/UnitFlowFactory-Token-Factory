@@ -3,14 +3,14 @@ const hre = require("hardhat");
 async function main() {
   const ethers = hre.ethers;
 
-  console.log("🧪 Testing V2 Tax Token Factory with Auto-Verification...\n");
+  console.log("🧪 Testing V2 Tax Unit Factory with Auto-Verification...\n");
 
   const factoryAddress = "0x35b0A621a88634cea24920D84331d0CAad629BF4";
   const [deployer] = await ethers.getSigners();
 
   console.log("Creator address:", deployer.address);
 
-  const Factory = await ethers.getContractFactory("ArcTaxTokenFactoryV2");
+  const Factory = await ethers.getContractFactory("TaxUnitFactoryV2");
   const factory = Factory.attach(factoryAddress);
 
   const creationFee = await factory.creationFee();
@@ -52,7 +52,7 @@ async function main() {
   console.log("Implementation:", await factory.implementation());
 
   console.log("\n📊 Token Details:");
-  const Token = await ethers.getContractFactory("ArcTaxTokenImplementation");
+  const Token = await ethers.getContractFactory("TaxUnitImplementation");
   const token = Token.attach(tokenAddress);
   
   console.log("Name:", await token.name());

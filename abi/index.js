@@ -1,17 +1,17 @@
-// ABI exports for ArcFactory Token Factory
+// ABI exports for Unit Factory
 // Network: Arc Testnet (Chain ID: 5042002)
 
 // V1 Factories (Direct deployment - requires manual verification)
-const ArcTokenFactory = require('./ArcTokenFactory.json');
-const ArcTaxTokenFactory = require('./ArcTaxTokenFactory.json');
-const ArcToken = require('./ArcToken.json');
-const ArcTaxToken = require('./ArcTaxToken.json');
+const TokenFactory = require('./TokenFactory.json');
+const TaxTokenFactory = require('./TaxTokenFactory.json');
+const Token = require('./Token.json');
+const TaxToken = require('./TaxToken.json');
 
 // V2 Factories (Clone pattern - AUTO-VERIFIED)
-const ArcTokenFactoryV2 = require('./ArcTokenFactoryV2.json');
-const ArcTaxTokenFactoryV2 = require('./ArcTaxTokenFactoryV2.json');
-const ArcTokenImplementation = require('./ArcTokenImplementation.json');
-const ArcTaxTokenImplementation = require('./ArcTaxTokenImplementation.json');
+const UnitFactoryV2 = require('./UnitFactoryV2.json');
+const TaxUnitFactoryV2 = require('./TaxUnitFactoryV2.json');
+const UnitImplementation = require('./UnitImplementation.json');
+const TaxUnitImplementation = require('./TaxUnitImplementation.json');
 
 // Contract addresses on Arc Testnet
 const addresses = {
@@ -45,16 +45,16 @@ const networks = {
 
 module.exports = {
   // V1 ABIs
-  ArcTokenFactory,
-  ArcTaxTokenFactory,
-  ArcToken,
-  ArcTaxToken,
+  TokenFactory,
+  TaxTokenFactory,
+  Token,
+  TaxToken,
   
   // V2 ABIs (Recommended)
-  ArcTokenFactoryV2,
-  ArcTaxTokenFactoryV2,
-  ArcTokenImplementation,
-  ArcTaxTokenImplementation,
+  UnitFactoryV2,
+  TaxUnitFactoryV2,
+  UnitImplementation,
+  TaxUnitImplementation,
   
   // Addresses
   addresses,

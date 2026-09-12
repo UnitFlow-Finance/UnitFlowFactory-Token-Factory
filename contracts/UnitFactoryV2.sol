@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.20;
 
-import "./ArcTaxTokenImplementation.sol";
+import "./UnitImplementation.sol";
 import "@openzeppelin/contracts/proxy/Clones.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
@@ -9,10 +9,10 @@ import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 
 /**
- * @title ArcTaxTokenFactoryV2
- * @dev Factory using minimal proxy pattern for auto-verified tax tokens
+ * @title UnitFactoryV2
+ * @dev Gas-optimized Unit Factory with dynamic fee adjustment
  */
-contract ArcTaxTokenFactoryV2 is Ownable, ReentrancyGuard {
+contract UnitFactoryV2 is Ownable, ReentrancyGuard {
     using SafeERC20 for IERC20;
     using Clones for address;
     
@@ -30,14 +30,12 @@ contract ArcTaxTokenFactoryV2 is Ownable, ReentrancyGuard {
     mapping(address => uint256[]) public creatorTokens;
     mapping(address => uint256) public tokenToId;
     
-    event TaxTokenCreated(
+    event TokenCreated(
         uint256 indexed tokenId,
         address indexed tokenAddress,
         address indexed creator,
         string name,
-        string symbol,
-        uint256 buyTax,
-        uint256 sellTax
+        string symbol
     );
     
     event CreationFeeUpdated(uint256 oldFee, uint256 newFee);
@@ -50,23 +48,19 @@ contract ArcTaxTokenFactoryV2 is Ownable, ReentrancyGuard {
         creationFee = initialFee_;
     }
     
-    function createTaxToken(
+    function createToken(
         string calldata name_,
         string calldata symbol_,
         uint8 decimals_,
         uint256 initialSupply_,
         uint256 maxSupply_,
         bool mintable_,
-        bool pausable_,
-        uint256 buyTax_,
-        uint256 sellTax_,
-        address taxWallet_
+        bool pausable_
     ) external payable nonReentrant returns (address tokenAddress) {
         require(msg.value >= creationFee, "Insufficient creation fee");
         require(bytes(name_).length > 0, "Name cannot be empty");
         require(bytes(symbol_).length > 0, "Symbol cannot be empty");
         require(decimals_ <= 18, "Decimals too high");
-        require(taxWallet_ != address(0), "Invalid tax wallet");
         
         if (maxSupply_ > 0) {
             require(initialSupply_ <= maxSupply_, "Initial supply exceeds max supply");
@@ -76,7 +70,7 @@ contract ArcTaxTokenFactoryV2 is Ownable, ReentrancyGuard {
         tokenAddress = implementation.clone();
         
         // Initialize the clone
-        ArcTaxTokenImplementation(tokenAddress).initialize(
+        UnitImplementation(tokenAddress).initialize(
             name_,
             symbol_,
             decimals_,
@@ -84,9 +78,6 @@ contract ArcTaxTokenFactoryV2 is Ownable, ReentrancyGuard {
             maxSupply_,
             mintable_,
             pausable_,
-            buyTax_,
-            sellTax_,
-            taxWallet_,
             msg.sender
         );
         
@@ -103,14 +94,12 @@ contract ArcTaxTokenFactoryV2 is Ownable, ReentrancyGuard {
         
         totalTokensCreated++;
         
-        emit TaxTokenCreated(
+        emit TokenCreated(
             tokenId,
             tokenAddress,
             msg.sender,
             name_,
-            symbol_,
-            buyTax_,
-            sellTax_
+            symbol_
         );
         
         if (msg.value > creationFee) {
